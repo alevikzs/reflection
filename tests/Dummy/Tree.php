@@ -4,14 +4,15 @@ declare(strict_types = 1);
 
 namespace Tests\Dummy;
 
-use \JsonSerializable as Serializable;
+use \JsonSerializable;
 use \Tests\Dummy\Branch as BranchClass;
+use \Tests\Dummy\Leaf;
 
 /**
  * Class Tree
  * @package Tests\Dummy
  */
-class Tree implements Serializable {
+class Tree implements JsonSerializable {
 
     /**
      * @var float

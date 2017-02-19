@@ -1,5 +1,5 @@
 {
-  "name": "alevikzs/uses-reflection",
+  "name": "alevikzs/reflection",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "php": ">=7"
+    "php": ">=7.1"
   },
   "require-dev": {
     "phpunit/phpunit": "5.7.*"

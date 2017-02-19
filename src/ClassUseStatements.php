@@ -8,15 +8,15 @@ use \ReflectionClass;
 use \RuntimeException;
 
 /**
- * Class ReflectionClassUses
+ * Class ClassUseStatements
  * @package UsesReflection
  */
-class ReflectionClassUses extends ReflectionClass {
+class ClassUseStatements extends ReflectionClass {
 
     /**
-     * @var array
+     * @var UseStatements
      */
-    private $useStatements = [];
+    private $useStatements;
 
     /**
      * @var boolean
@@ -24,11 +24,11 @@ class ReflectionClassUses extends ReflectionClass {
     private $isUseStatementsParsed = false;
 
     /**
-     * @return array
+     * @return UseStatements
      */
-    public function getUseStatements(): array {
+    public function getUseStatements(): UseStatements {
         if ($this->isUseStatementsNotParsed()) {
-            $this->useStatements = $this->parseUseStatements();
+            $this->useStatements = $this->createUseStatements();
         }
 
         return $this->useStatements;
@@ -39,11 +39,8 @@ class ReflectionClassUses extends ReflectionClass {
      * @return boolean
      */
     public function hasUseStatement(string $class): bool {
-        $useStatements = $this->getUseStatements();
-
-        return
-            array_search($class, array_column($useStatements, 'class')) ||
-            array_search($class, array_column($useStatements, 'as'));
+        return $this->getUseStatements()
+            ->hasClass($class);
     }
 
     /**
@@ -61,24 +58,36 @@ class ReflectionClassUses extends ReflectionClass {
     }
 
     /**
-     * @return ReflectionClassUses
+     * @return ClassUseStatements
      */
-    private function setUseStatementsIsParsed(): ReflectionClassUses {
+    private function setUseStatementsIsParsed(): ClassUseStatements {
         $this->isUseStatementsParsed = true;
 
         return $this;
     }
 
     /**
-     * @return array
+     * @return UseStatements
      */
-    private function parseUseStatements(): array {
+    private function createUseStatements(): UseStatements {
         if ($this->isNotUserDefined()) {
             throw new RuntimeException('Can get use statements from user defined classes only.');
         }
 
-        return $this->setUseStatementsIsParsed()
-            ->tokenizeSource();
+        $this->setUseStatementsIsParsed();
+
+        $rawUseStatements = $this->createRawUseStatements();
+
+        $useStatements = new UseStatements();
+
+        foreach ($rawUseStatements as $rawUseStatement) {
+            $useStatements->add(new UseStatement(
+                $rawUseStatement['class'],
+                $rawUseStatement['alias']
+            ));
+        }
+
+        return $useStatements;
     }
 
     /**
@@ -107,17 +116,19 @@ class ReflectionClassUses extends ReflectionClass {
     /**
      * @return array
      */
-    private function tokenizeSource(): array {
-        $tokens = token_get_all($this->readFileSource());
+    private function createRawUseStatements(): array {
         $builtNamespace = '';
         $buildingNamespace = false;
         $matchedNamespace = false;
-        $useStatements = [];
-        $record = false;
-        $currentUse = [
+        $tokenType = false;
+
+        $rawUseStatements = [];
+        $rawUseStatement = [
             'class' => '',
-            'as' => ''
+            'alias' => ''
         ];
+
+        $tokens = token_get_all($this->readFileSource());
 
         foreach ($tokens as $token) {
             if ($token[0] === T_NAMESPACE) {
@@ -147,13 +158,14 @@ class ReflectionClassUses extends ReflectionClass {
             }
 
             if ($token === ';' || !is_array($token)) {
-                if ($record) {
-                    $useStatements[] = $currentUse;
-                    $record = false;
-                    $currentUse = [
+                if ($tokenType) {
+                    $rawUseStatements[] = $rawUseStatement;
+                    $rawUseStatement = [
                         'class' => '',
-                        'as' => ''
+                        'alias' => ''
                     ];
+
+                    $tokenType = false;
                 }
 
                 continue;
@@ -169,19 +181,19 @@ class ReflectionClassUses extends ReflectionClass {
 
             if ($matchedNamespace) {
                 if ($token[0] === T_USE) {
-                    $record = 'class';
+                    $tokenType = 'class';
                 }
 
                 if ($token[0] === T_AS) {
-                    $record = 'as';
+                    $tokenType = 'alias';
                 }
 
-                if ($record) {
+                if ($tokenType) {
                     switch ($token[0]) {
                         case T_STRING:
                         case T_NS_SEPARATOR:
-                            if ($record) {
-                                $currentUse[$record] .= $token[1];
+                            if ($tokenType) {
+                                $rawUseStatement[$tokenType] .= $token[1];
                             }
 
                             break;
@@ -194,14 +206,7 @@ class ReflectionClassUses extends ReflectionClass {
             }
         }
 
-        foreach ($useStatements as &$useStatement) {
-            if (empty($useStatement['as'])) {
-
-                $useStatement['as'] = basename($useStatement['class']);
-            }
-        }
-
-        return $useStatements;
+        return $rawUseStatements;
     }
 
 }
