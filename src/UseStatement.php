@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace UsesReflection;
+namespace Reflection;
 
 /**
  * Class UseStatement
@@ -30,7 +30,7 @@ class UseStatement {
      * @param string $fullClassName
      * @param string $alias
      */
-    public function __construct(string $fullClassName, string $alias) {
+    public function __construct(string $fullClassName, string $alias = '') {
         $this->setFullClassName($fullClassName)
             ->setAlias($alias);
     }
@@ -60,16 +60,6 @@ class UseStatement {
      */
     public function getClassName(): string {
         return $this->className;
-    }
-
-    /**
-     * @param string $className
-     * @return UseStatement
-     */
-    public function setClassName(string $className): UseStatement {
-        $this->className = $className;
-
-        return $this;
     }
 
     /**

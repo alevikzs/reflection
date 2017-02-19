@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace UsesReflection;
+namespace Reflection;
 
 use \ArrayObject;
 
@@ -41,7 +41,7 @@ class UseStatements extends ArrayObject {
      * @param string $class
      * @return UseStatement|null
      */
-    public function getClassField(string $class): ?UseStatement {
+    public function getClass(string $class): ?UseStatement {
         /** @var UseStatement $useStatement */
         foreach ($this as $useStatement) {
             if (in_array($class, $useStatement->toArray())) {

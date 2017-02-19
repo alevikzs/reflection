@@ -2,16 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace UsesReflection;
+namespace Reflection;
 
 use \ReflectionClass;
 use \RuntimeException;
 
 /**
- * Class ClassUseStatements
+ * Class ReflectionUseStatements
  * @package UsesReflection
  */
-class ClassUseStatements extends ReflectionClass {
+class ReflectionUseStatements extends ReflectionClass {
 
     /**
      * @var UseStatements
@@ -58,9 +58,9 @@ class ClassUseStatements extends ReflectionClass {
     }
 
     /**
-     * @return ClassUseStatements
+     * @return ReflectionUseStatements
      */
-    private function setUseStatementsIsParsed(): ClassUseStatements {
+    private function setUseStatementsIsParsed(): ReflectionUseStatements {
         $this->isUseStatementsParsed = true;
 
         return $this;
