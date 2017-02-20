@@ -1,0 +1,13 @@
+language: php
+php:
+  - '7.0'
+cache:
+  directories:
+    - vendor
+install:
+  - composer --prefer-source install
+script:
+  - phpunit
+notifications:
+  email:
+    - alekseeey@gmail.com

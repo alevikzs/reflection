@@ -1,5 +1,7 @@
 {
   "name": "alevikzs/reflection",
+  "description": "This package is provide reflection API for retrieve use statements by some class.",
+  "keywords": ["php", "reflection", "use statements"],
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -8,8 +10,9 @@
       "email": "alekseeey@gmail.com"
     }
   ],
+  "minimum-stability": "stable",
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.0"
   },
   "require-dev": {
     "phpunit/phpunit": "6.*"
