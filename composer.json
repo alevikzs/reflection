@@ -1,6 +1,6 @@
 {
   "name": "alevikzs/reflection",
-  "description": "This package is provide reflection API for retrieve use statements by some class.",
+  "description": "This package provides reflection API for retrieve use statements by some class.",
   "keywords": ["php", "reflection", "use statements"],
   "type": "library",
   "license": "MIT",

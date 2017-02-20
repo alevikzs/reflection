@@ -1,6 +1,6 @@
 ##Use Statements Reflection API
 
-[![License](https://poser.pugx.org/alevikzs/reflection/license)](https://packagist.org/packages/alevikzs/reflection)
+[![License](http://poser.pugx.org/alevikzs/reflection/license)](https://packagist.org/packages/alevikzs/reflection)
 [![Latest Stable Version](https://poser.pugx.org/alevikzs/reflection/v/stable)](https://packagist.org/packages/alevikzs/reflection) 
 [![Total Downloads](https://poser.pugx.org/alevikzs/reflection/downloads)](https://packagist.org/packages/alevikzs/reflection) 
 [![Reference Status](https://www.versioneye.com/php/alevikzs:reflection/reference_badge.svg?style=flat)](https://www.versioneye.com/php/alevikzs:reflection/references)
@@ -9,7 +9,7 @@
 [![Build Status](https://secure.travis-ci.org/alevikzs/reflection.png?branch=master)](http://travis-ci.org/alevikzs/reflection)
 
 ###About
-This package is provide reflection API for retrieve use statements by some class.
+This package provides reflection API for retrieve use statements by some class.
 
 ###Requirements
 * PHP >= 7.1
