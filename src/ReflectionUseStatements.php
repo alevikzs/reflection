@@ -118,9 +118,10 @@ class ReflectionUseStatements extends ReflectionClass {
      */
     private function createRawUseStatements(): array {
         $builtNamespace = '';
+        $tokenType = '';
+
         $buildingNamespace = false;
         $matchedNamespace = false;
-        $tokenType = false;
 
         $rawUseStatements = [];
         $rawUseStatement = [
@@ -165,7 +166,7 @@ class ReflectionUseStatements extends ReflectionClass {
                         'alias' => ''
                     ];
 
-                    $tokenType = false;
+                    $tokenType = '';
                 }
 
                 continue;

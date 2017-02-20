@@ -30,7 +30,7 @@ class Tree implements JsonSerializable {
     private $branch;
 
     /**
-     * @var BranchClass
+     * @var string
      */
     private $something;
 

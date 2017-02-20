@@ -17,7 +17,7 @@ class UseStatements extends ArrayObject {
      * @return UseStatements
      */
     public function add(UseStatement $useStatement): UseStatements {
-        parent::append($useStatement);
+        $this->append($useStatement);
 
         return $this;
     }
