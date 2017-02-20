@@ -14,6 +14,9 @@ This package is provide reflection API for retrieve use statements by some class
 ###Requirements
 * PHP >= 7.0
 
+###Installation##
+Require the package with composer: ```$ composer require alevikzs/reflection```
+
 ###How to use
 First, you need to create reflection object:
 ```
