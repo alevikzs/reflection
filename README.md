@@ -12,7 +12,7 @@
 This package is provide reflection API for retrieve use statements by some class.
 
 ###Requirements
-* PHP >= 7.0
+* PHP >= 7.1
 
 ###Installation##
 Require the package with composer: ```$ composer require alevikzs/reflection```
