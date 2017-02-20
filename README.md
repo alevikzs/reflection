@@ -10,8 +10,10 @@
 
 ###About
 This package is provide reflection API for retrieve use statements by some class.
+
 ###Requirements
 * PHP >= 7.0
+
 ###How to use
 First, you need to create reflection object:
 ```
@@ -22,8 +24,8 @@ and then you can get use statements or check if some class was used:
 $reflection->getUseStatements();
 $reflection->hasUseStatement(Tree::class)
 ```
+
 ###MIT License
-   
 **Copyright (c) 2017 Alexey Novikov <alekseeey@gmail.com>**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
