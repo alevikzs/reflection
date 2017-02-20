@@ -1,3 +1,7 @@
+build:
+    environment:
+        php:
+            version: 7.1
 checks:
     php:
         code_rating: true
