@@ -6,7 +6,8 @@
 [![Reference Status](http://www.versioneye.com/php/alevikzs:reflection/reference_badge.svg?style=flat)](https://www.versioneye.com/php/alevikzs:reflection/references)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alevikzs/reflection/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/reflection/?branch=master)
 [![Code Climate](https://codeclimate.com/github/alevikzs/reflection/badges/gpa.svg)](https://codeclimate.com/github/alevikzs/reflection)
-[![Build Status](https://secure.travis-ci.org/alevikzs/reflection.png?branch=master)](http://travis-ci.org/alevikzs/reflection)
+[![Build Status](https://scrutinizer-ci.com/g/alevikzs/reflection/badges/build.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/reflection/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/alevikzs/reflection/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/reflection/?branch=master)
 
 ###About
 This package provides reflection API for retrieve use statements by some class.
@@ -14,7 +15,7 @@ This package provides reflection API for retrieve use statements by some class.
 ###Requirements
 * PHP >= 7.1
 
-###Installation##
+###Installation
 Require the package with composer: ```$ composer require alevikzs/reflection```
 
 ###How to use

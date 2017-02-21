@@ -7,7 +7,10 @@ cache:
 install:
   - composer --prefer-source install
 script:
-  - phpunit
+  - phpunit --coverage-clover=coverage.clover
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 notifications:
   email:
     - alekseeey@gmail.com
