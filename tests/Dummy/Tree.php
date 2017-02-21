@@ -2,15 +2,15 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Dummy;
+namespace Reflection\Tests\Dummy;
 
 use \JsonSerializable;
-use \Tests\Dummy\Branch as BranchClass;
-use \Tests\Dummy\Leaf;
+use \Reflection\Tests\Dummy\Branch as BranchClass;
+use \Reflection\Tests\Dummy\Leaf;
 
 /**
  * Class Tree
- * @package Tests\Dummy
+ * @package Reflection\Tests\Dummy
  */
 class Tree implements JsonSerializable {
 

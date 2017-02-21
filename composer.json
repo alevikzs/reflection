@@ -20,7 +20,7 @@
   "autoload": {
     "psr-4": {
       "Reflection\\": "src",
-      "Tests\\": "tests"
+      "Reflection\\Tests\\": "tests"
     }
   }
 }

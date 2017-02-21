@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Tests;
+namespace Reflection\Tests;
 
 use \PHPUnit\Framework\TestCase;
 
@@ -10,11 +10,11 @@ use \Reflection\ReflectionUseStatements;
 use \Reflection\UseStatements;
 use \Reflection\UseStatement;
 
-use \Tests\Dummy\Tree;
+use \Reflection\Tests\Dummy\Tree;
 
 /**
  * Class ClassUseStatementsTest
- * @package Tests
+ * @package Reflection\Tests
  */
 class ReflectionUseStatementsTest extends TestCase {
 
@@ -25,24 +25,24 @@ class ReflectionUseStatementsTest extends TestCase {
             $reflection->getUseStatements(),
             (new UseStatements())
                 ->add(new UseStatement('\JsonSerializable'))
-                ->add(new UseStatement('\Tests\Dummy\Branch', 'BranchClass'))
-                ->add(new UseStatement('\Tests\Dummy\Leaf'))
+                ->add(new UseStatement('\Reflection\Tests\Dummy\Branch', 'BranchClass'))
+                ->add(new UseStatement('\Reflection\Tests\Dummy\Leaf'))
         );
 
         $this->assertFalse($reflection->isNotUserDefined());
 
         $this->assertTrue($reflection->hasUseStatement('\JsonSerializable'));
         $this->assertTrue($reflection->hasUseStatement('JsonSerializable'));
-        $this->assertTrue($reflection->hasUseStatement('\Tests\Dummy\Branch'));
+        $this->assertTrue($reflection->hasUseStatement('\Reflection\Tests\Dummy\Branch'));
         $this->assertTrue($reflection->hasUseStatement('BranchClass'));
-        $this->assertTrue($reflection->hasUseStatement('\Tests\Dummy\Leaf'));
+        $this->assertTrue($reflection->hasUseStatement('\Reflection\Tests\Dummy\Leaf'));
         $this->assertTrue($reflection->hasUseStatement('Leaf'));
         $this->assertFalse($reflection->hasUseStatement('LeafClass'));
 
         $this->assertNull($reflection->getUseStatements()->getClass('LeafClass'));
         $this->assertEquals(
             $reflection->getUseStatements()->getClass('BranchClass'),
-            new UseStatement('\Tests\Dummy\Branch', 'BranchClass')
+            new UseStatement('\Reflection\Tests\Dummy\Branch', 'BranchClass')
         );
 
         $this->expectException('RuntimeException');
