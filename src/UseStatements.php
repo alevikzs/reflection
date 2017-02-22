@@ -41,7 +41,7 @@ class UseStatements extends ArrayObject {
      * @param string $class
      * @return UseStatement|null
      */
-    public function getClass(string $class): ?UseStatement {
+    public function findUseStatement(string $class): ?UseStatement {
         /** @var UseStatement $useStatement */
         foreach ($this as $useStatement) {
             if (in_array($class, $useStatement->toArray())) {

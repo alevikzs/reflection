@@ -39,9 +39,9 @@ class ReflectionUseStatementsTest extends TestCase {
         $this->assertTrue($reflection->hasUseStatement('Leaf'));
         $this->assertFalse($reflection->hasUseStatement('LeafClass'));
 
-        $this->assertNull($reflection->getUseStatements()->getClass('LeafClass'));
+        $this->assertNull($reflection->getUseStatements()->findUseStatement('LeafClass'));
         $this->assertEquals(
-            $reflection->getUseStatements()->getClass('BranchClass'),
+            $reflection->getUseStatements()->findUseStatement('BranchClass'),
             new UseStatement('\Reflection\Tests\Dummy\Branch', 'BranchClass')
         );
 
