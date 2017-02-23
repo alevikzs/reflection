@@ -47,6 +47,10 @@ class UseStatement {
      * @return UseStatement
      */
     public function setFullClassName(string $fullClassName): UseStatement {
+        if ($fullClassName[0] !== '\\') {
+            $fullClassName = "\\$fullClassName";
+        }
+
         $this->fullClassName = $fullClassName;
 
         $paths = explode('\\', $fullClassName);

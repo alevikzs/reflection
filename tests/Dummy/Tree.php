@@ -6,7 +6,7 @@ namespace Reflection\Tests\Dummy;
 
 use \JsonSerializable;
 use \Reflection\Tests\Dummy\Branch as BranchClass;
-use \Reflection\Tests\Dummy\Leaf;
+use Reflection\Tests\Dummy\Leaf;
 
 /**
  * Class Tree
