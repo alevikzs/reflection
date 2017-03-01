@@ -14,6 +14,16 @@ use \RuntimeException;
 class ReflectionUseStatements extends ReflectionClass {
 
     /**
+     * @const string
+     */
+    const CLASS_STATEMENT_TYPE = 'class';
+
+    /**
+     * @const string
+     */
+    const ALIAS_STATEMENT_TYPE = 'alias';
+
+    /**
      * @var UseStatements
      */
     private $useStatements;
@@ -82,8 +92,8 @@ class ReflectionUseStatements extends ReflectionClass {
 
         foreach ($rawUseStatements as $rawUseStatement) {
             $useStatements->add(new UseStatement(
-                $rawUseStatement['class'],
-                $rawUseStatement['alias']
+                $rawUseStatement[self::CLASS_STATEMENT_TYPE],
+                $rawUseStatement[self::ALIAS_STATEMENT_TYPE]
             ));
         }
 
@@ -117,97 +127,63 @@ class ReflectionUseStatements extends ReflectionClass {
      * @return array
      */
     private function createRawUseStatements(): array {
-        $builtNamespace = '';
-        $tokenType = '';
-
-        $buildingNamespace = false;
-        $matchedNamespace = false;
-
-        $rawUseStatements = [];
-        $rawUseStatement = [
-            'class' => '',
-            'alias' => ''
-        ];
-
         $tokens = token_get_all($this->readFileSource());
 
+        $useStatementIsBuilding = false;
+        $statementType = '';
+        $useStatements = [];
+        $useStatement = [
+            self::CLASS_STATEMENT_TYPE => '',
+            self::ALIAS_STATEMENT_TYPE => ''
+        ];
+
         foreach ($tokens as $token) {
-            if ($token[0] === T_NAMESPACE) {
-                $buildingNamespace = true;
+            if (is_array($token)) {
+                if ($token[0] === T_USE) {
+                    $useStatementIsBuilding = true;
 
-                if ($matchedNamespace) {
-                    break;
-                }
-            }
-
-            if ($buildingNamespace) {
-                if ($token === ';') {
-                    $buildingNamespace = false;
+                    $statementType = self::CLASS_STATEMENT_TYPE;
 
                     continue;
                 }
 
-                switch ($token[0]) {
-                    case T_STRING:
-                    case T_NS_SEPARATOR:
-                        $builtNamespace .= $token[1];
-
-                        break;
-                }
-
-                continue;
-            }
-
-            if ($token === ';' || !is_array($token)) {
-                if ($tokenType) {
-                    $rawUseStatements[] = $rawUseStatement;
-                    $rawUseStatement = [
-                        'class' => '',
-                        'alias' => ''
-                    ];
-
-                    $tokenType = '';
-                }
-
-                continue;
-            }
-
-            if ($token[0] === T_CLASS) {
-                break;
-            }
-
-            if (strcasecmp($builtNamespace, $this->getNamespaceName()) === 0) {
-                $matchedNamespace = true;
-            }
-
-            if ($matchedNamespace) {
-                if ($token[0] === T_USE) {
-                    $tokenType = 'class';
-                }
-
                 if ($token[0] === T_AS) {
-                    $tokenType = 'alias';
+                    $statementType = self::ALIAS_STATEMENT_TYPE;
+
+                    continue;
                 }
 
-                if ($tokenType) {
+                if ($useStatementIsBuilding && $statementType) {
                     switch ($token[0]) {
-                        case T_STRING:
                         case T_NS_SEPARATOR:
-                            if ($tokenType) {
-                                $rawUseStatement[$tokenType] .= $token[1];
-                            }
+                        case T_STRING:
+                            $useStatement[$statementType] .= $token[1];
 
                             break;
+
+                    }
+                }
+            } else {
+                if (($token === ';' || $token === ',') && $useStatementIsBuilding) {
+                    $useStatements[] = $useStatement;
+
+                    $useStatement = [
+                        self::CLASS_STATEMENT_TYPE => '',
+                        self::ALIAS_STATEMENT_TYPE => ''
+                    ];
+
+                    if ($token === ';') {
+                        $useStatementIsBuilding = false;
+                    }
+
+                    if ($token === ',') {
+                        $statementType = self::CLASS_STATEMENT_TYPE;
                     }
                 }
             }
-
-            if ($token[2] >= $this->getStartLine()) {
-                break;
-            }
         }
 
-        return $rawUseStatements;
+        return $useStatements;
     }
 
 }

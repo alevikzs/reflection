@@ -11,7 +11,6 @@ use \Reflection\UseStatements;
 use \Reflection\UseStatement;
 
 use \Reflection\Tests\Dummy\Tree;
-use \Reflection\Tests\Dummy\Branch;
 
 /**
  * Class ReflectionUseStatementsTest

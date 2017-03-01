@@ -19,7 +19,7 @@ class Branch implements Serializable {
     private $length;
 
     /**
-     * @var LeafClass[]
+     * @var Leaf[]
      */
     private $leaves;
 
@@ -41,14 +41,14 @@ class Branch implements Serializable {
     }
 
     /**
-     * @return LeafClass[]
+     * @return Leaf[]
      */
     public function getLeaves(): array {
         return $this->leaves;
     }
 
     /**
-     * @param LeafClass[] $leaves
+     * @param Leaf[] $leaves
      * @return Branch
      */
     public function setLeaves(array $leaves = []): Branch {
@@ -59,7 +59,7 @@ class Branch implements Serializable {
 
     /**
      * @param float $length
-     * @param LeafClass[] $leaves
+     * @param Leaf[] $leaves
      */
     public function __construct(float $length = null, array $leaves = []) {
         $this->length = $length;
