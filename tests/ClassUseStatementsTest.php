@@ -6,20 +6,20 @@ namespace Reflection\Tests;
 
 use \PHPUnit\Framework\TestCase;
 
-use \Reflection\ReflectionUseStatements;
-use \Reflection\UseStatements;
-use \Reflection\UseStatement;
+use \Reflection\ClassUseStatements;
+use \Reflection\ClassUseStatements\UseStatements;
+use \Reflection\ClassUseStatements\UseStatement;
 
 use \Reflection\Tests\Dummy\Tree;
 
 /**
- * Class ReflectionUseStatementsTest
+ * Class ClassUseStatementsTest
  * @package Reflection\Tests
  */
-class ReflectionUseStatementsTest extends TestCase {
+class ClassUseStatementsTest extends TestCase {
 
     public function testMain() {
-        $reflection = new ReflectionUseStatements(Tree::class);
+        $reflection = new ClassUseStatements(Tree::class);
 
         $this->assertEquals(
             $reflection->getUseStatements(),
@@ -47,7 +47,7 @@ class ReflectionUseStatementsTest extends TestCase {
 
         $this->expectException('RuntimeException');
         $this->expectExceptionMessage('Can get use statements from user defined classes only.');
-        (new ReflectionUseStatements('\JsonSerializable'))->getUseStatements();
+        (new ClassUseStatements('\JsonSerializable'))->getUseStatements();
     }
 
 }

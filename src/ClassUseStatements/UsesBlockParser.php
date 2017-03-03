@@ -1,6 +1,6 @@
 <?php
 
-namespace Reflection;
+namespace Reflection\ClassUseStatements;
 
 /**
  * Class UsesBlockParser

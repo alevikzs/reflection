@@ -7,11 +7,14 @@ namespace Reflection;
 use \ReflectionClass;
 use \RuntimeException;
 
+use \Reflection\ClassUseStatements\UseStatements;
+use \Reflection\ClassUseStatements\UsesBlockParser;
+
 /**
- * Class ReflectionUseStatements
+ * Class ClassUseStatements
  * @package UsesReflection
  */
-class ReflectionUseStatements extends ReflectionClass {
+class ClassUseStatements extends ReflectionClass {
 
     /**
      * @var UseStatements
@@ -58,9 +61,9 @@ class ReflectionUseStatements extends ReflectionClass {
     }
 
     /**
-     * @return ReflectionUseStatements
+     * @return ClassUseStatements
      */
-    private function setUseStatementsIsParsed(): ReflectionUseStatements {
+    private function setUseStatementsIsParsed(): ClassUseStatements {
         $this->isUseStatementsParsed = true;
 
         return $this;
