@@ -219,15 +219,10 @@ class UsesBlockParser {
      */
     private function setCurrentStatement(string $value): UsesBlockParser {
         $type = $this->getCurrentStatementType();
-        
-        switch ($type) {
-            case self::CLASS_STATEMENT_TYPE:
-                return $this->setCurrentClassStatement($value);
-            case self::ALIAS_STATEMENT_TYPE:
-                return $this->setCurrentAliasStatement($value);
-        }
-        
-        return $this;
+
+        $setter = 'setCurrent' . ucfirst($type) . 'Statement';
+
+        return $this->$setter($value);
     }
 
     /**
