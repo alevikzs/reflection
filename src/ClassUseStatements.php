@@ -42,8 +42,7 @@ class ClassUseStatements extends ReflectionClass {
      * @return boolean
      */
     public function hasUseStatement(string $class): bool {
-        return $this->getUseStatements()
-            ->hasClass($class);
+        return true;
     }
 
     /**

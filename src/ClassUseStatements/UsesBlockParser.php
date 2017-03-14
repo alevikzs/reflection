@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Reflection\ClassUseStatements;
 
 /**
@@ -11,7 +13,7 @@ class UsesBlockParser {
     /**
      * @const string
      */
-    const CLASS_STATEMENT_TYPE = 'class';
+    const USE_STATEMENT_TYPE = 'use';
 
     /**
      * @const string
@@ -31,7 +33,12 @@ class UsesBlockParser {
     /**
      * @var string
      */
-    private $currentClassStatement = '';
+    private $currentUseStatement = '';
+
+    /**
+     * @var string
+     */
+    private $committedUseStatement = '';
 
     /**
      * @var string
@@ -42,6 +49,11 @@ class UsesBlockParser {
      * @var string
      */
     private $currentStatementType = '';
+
+    /**
+     * @var bool
+     */
+    private $isBrace = false;
 
     /**
      * UsesBlockParser constructor.
@@ -96,16 +108,20 @@ class UsesBlockParser {
     /**
      * @return string
      */
-    protected function getCurrentClassStatement(): string {
-        return $this->currentClassStatement;
+    protected function getCurrentUseStatement(): string {
+        if ($this->isBrace()) {
+            return $this->getCommittedUseStatement() . $this->currentUseStatement;
+        }
+
+        return $this->currentUseStatement;
     }
 
     /**
-     * @param string $classStatement
+     * @param string $statement
      * @return UsesBlockParser
      */
-    protected function setCurrentClassStatement(string $classStatement): UsesBlockParser {
-        $this->currentClassStatement .= $classStatement;
+    protected function setCurrentUseStatement(string $statement): UsesBlockParser {
+        $this->currentUseStatement .= $statement;
         
         return $this;
     }
@@ -113,8 +129,24 @@ class UsesBlockParser {
     /**
      * @return UsesBlockParser
      */
-    protected function clearCurrentClassStatement(): UsesBlockParser {
-        $this->currentClassStatement = '';
+    protected function clearCurrentUseStatement(): UsesBlockParser {
+        $this->currentUseStatement = '';
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCommittedUseStatement(): string {
+        return $this->committedUseStatement;
+    }
+
+    /**
+     * @return UsesBlockParser
+     */
+    protected function commitUseStatement(): UsesBlockParser {
+        $this->committedUseStatement = $this->currentUseStatement;
 
         return $this;
     }
@@ -127,11 +159,11 @@ class UsesBlockParser {
     }
 
     /**
-     * @param string $aliasStatement
+     * @param string $statement
      * @return UsesBlockParser
      */
-    protected function setCurrentAliasStatement(string $aliasStatement): UsesBlockParser {
-        $this->currentAliasStatement = $aliasStatement;
+    protected function setCurrentAliasStatement(string $statement): UsesBlockParser {
+        $this->currentAliasStatement = $statement;
         
         return $this;
     }
@@ -152,6 +184,33 @@ class UsesBlockParser {
         
         return $this;
     }
+
+    /**
+     * @return UsesBlockParser
+     */
+    protected function setIsBrace(): UsesBlockParser {
+        $this->isBrace = true;
+
+        return $this->commitUseStatement()
+            ->clearCurrentUseStatement();
+    }
+
+    /**
+     * @return UsesBlockParser
+     */
+    protected function setIsNotBrace(): UsesBlockParser {
+        $this->isBrace = false;
+        $this->committedUseStatement = '';
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isBrace(): bool {
+        return $this->isBrace;
+    }
     
     /**
      * @return UseStatements
@@ -163,7 +222,7 @@ class UsesBlockParser {
             if (is_array($token)) {
                 if ($token[0] === T_USE) {
                     $this->setUseStatementIsBuilding()
-                        ->setCurrentStatementType(self::CLASS_STATEMENT_TYPE);
+                        ->setCurrentStatementType(self::USE_STATEMENT_TYPE);
 
                     continue;
                 }
@@ -186,7 +245,7 @@ class UsesBlockParser {
             } else {
                 if (($token === ';' || $token === ',') && $this->isUseStatementBuilding()) {
                     $useStatements->add(new UseStatement(
-                        $this->getCurrentClassStatement(),
+                        $this->getCurrentUseStatement(),
                         $this->getCurrentAliasStatement()
                     ));
 
@@ -197,8 +256,16 @@ class UsesBlockParser {
                     }
 
                     if ($token === ',') {
-                        $this->setCurrentStatementType(self::CLASS_STATEMENT_TYPE);
+                        $this->setCurrentStatementType(self::USE_STATEMENT_TYPE);
                     }
+                }
+
+                if ($token === '{') {
+                    $this->setIsBrace();
+                }
+
+                if ($token === ';') {
+                    $this->setIsNotBrace();
                 }
             }
         }
@@ -229,7 +296,7 @@ class UsesBlockParser {
      * @return UsesBlockParser
      */
     protected function clearCurrentStatements(): UsesBlockParser {
-        return $this->clearCurrentClassStatement()
+        return $this->clearCurrentUseStatement()
             ->setCurrentAliasStatement('');
     }
     

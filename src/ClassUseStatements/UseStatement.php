@@ -13,12 +13,7 @@ class UseStatement {
     /**
      * @var string
      */
-    private $fullClassName;
-
-    /**
-     * @var string
-     */
-    private $className;
+    private $use;
 
     /**
      * @var string
@@ -27,43 +22,33 @@ class UseStatement {
 
     /**
      * UseStatement constructor.
-     * @param string $fullClassName
+     * @param string $use
      * @param string $alias
      */
-    public function __construct(string $fullClassName, string $alias = '') {
-        $this->setFullClassName($fullClassName)
+    public function __construct(string $use, string $alias = '') {
+        $this->setUse($use)
             ->setAlias($alias);
     }
 
     /**
      * @return string
      */
-    public function getFullClassName(): string {
-        return $this->fullClassName;
+    public function getUse(): string {
+        return $this->use;
     }
 
     /**
-     * @param string $fullClassName
+     * @param string $use
      * @return UseStatement
      */
-    public function setFullClassName(string $fullClassName): UseStatement {
-        if ($fullClassName[0] !== '\\') {
-            $fullClassName = "\\$fullClassName";
+    public function setUse(string $use): UseStatement {
+        if ($use[0] !== '\\') {
+            $use = "\\$use";
         }
 
-        $this->fullClassName = $fullClassName;
-
-        $paths = explode('\\', $fullClassName);
-        $this->className = end($paths);
+        $this->use = $use;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClassName(): string {
-        return $this->className;
     }
 
     /**
@@ -81,17 +66,6 @@ class UseStatement {
         $this->alias = $alias;
 
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray() {
-        return [
-            $this->getFullClassName(),
-            $this->getClassName(),
-            $this->getAlias()
-        ];
     }
 
 }

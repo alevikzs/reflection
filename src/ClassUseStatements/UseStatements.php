@@ -24,31 +24,9 @@ class UseStatements extends ArrayObject {
 
     /**
      * @param string $class
-     * @return bool
+     * @return string|null
      */
-    public function hasClass(string $class): bool {
-        /** @var UseStatement $useStatement */
-        foreach ($this as $useStatement) {
-            if (in_array($class, $useStatement->toArray())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $class
-     * @return UseStatement|null
-     */
-    public function findUseStatement(string $class): ?UseStatement {
-        /** @var UseStatement $useStatement */
-        foreach ($this as $useStatement) {
-            if (in_array($class, $useStatement->toArray())) {
-                return $useStatement;
-            }
-        }
-
+    public function getFullClassName(string $class): ?string {
         return null;
     }
 
