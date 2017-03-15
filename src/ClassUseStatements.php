@@ -8,7 +8,7 @@ use \ReflectionClass;
 use \RuntimeException;
 
 use \Reflection\ClassUseStatements\UseStatements;
-use \Reflection\ClassUseStatements\UsesBlockParser;
+use \Reflection\ClassUseStatements\Parser;
 
 /**
  * Class ClassUseStatements
@@ -38,11 +38,12 @@ class ClassUseStatements extends ReflectionClass {
     }
 
     /**
-     * @param string $class
+     * @param string $statement
      * @return boolean
      */
-    public function hasUseStatement(string $class): bool {
-        return true;
+    public function hasUseStatement(string $statement): bool {
+        return $this->getUseStatements()
+            ->hasStatement($statement);
     }
 
     /**
@@ -78,7 +79,7 @@ class ClassUseStatements extends ReflectionClass {
 
         $this->setUseStatementsIsParsed();
 
-        return (new UsesBlockParser($this->readUsesBlock()))
+        return (new Parser($this->readUsesBlock()))
             ->getUseStatements();
     }
 

@@ -23,11 +23,18 @@ class UseStatements extends ArrayObject {
     }
 
     /**
-     * @param string $class
-     * @return string|null
+     * @param string $statement
+     * @return bool
      */
-    public function getFullClassName(string $class): ?string {
-        return null;
+    public function hasStatement(string $statement): bool {
+        /** @var UseStatement $useStatement */
+        foreach ($this as $useStatement) {
+            if ($useStatement->isEqual($statement)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

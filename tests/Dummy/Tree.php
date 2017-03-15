@@ -17,8 +17,3 @@ use \Reflection\Tests\Dummy\Tree\{Trunk\Branch as BranchAlias, Trunk\Fruit, Trun
 class Tree {
 
 }
-
-BranchAlias::class;
-Root::class;
-Fruit::class;
-LeafAlias::class;

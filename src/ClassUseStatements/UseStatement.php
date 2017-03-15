@@ -68,4 +68,20 @@ class UseStatement {
         return $this;
     }
 
+    /**
+     * @param string $statement
+     * @return bool
+     */
+    public function isEqual(string $statement): bool {
+        if ($statement === $this->getUse()) {
+            return true;
+        }
+
+        if ($statement === $this->getAlias()) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

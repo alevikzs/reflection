@@ -24,26 +24,22 @@ class ClassUseStatementsTest extends TestCase {
         $this->assertEquals(
             $reflection->getUseStatements(),
             (new UseStatements())
-                ->add(new UseStatement('\JsonSerializable'))
-                ->add(new UseStatement('\Reflection\Tests\Dummy\Branch', 'BranchClass'))
-                ->add(new UseStatement('\Reflection\Tests\Dummy\Leaf'))
+                ->add(new UseStatement('\ReflectionClass'))
+                ->add(new UseStatement('\ReflectionFunction'))
+                ->add(new UseStatement('\ReflectionMethod'))
+                ->add(new UseStatement('\Reflection\Tests\Dummy\Tree\Root'))
+                ->add(new UseStatement('\Reflection\Tests\Dummy', 'DummyAlias'))
+                ->add(new UseStatement('\ReflectionObject'))
+                ->add(new UseStatement('\Reflection\Tests\Dummy\Tree\Trunk\Branch', 'BranchAlias'))
+                ->add(new UseStatement('\Reflection\Tests\Dummy\Tree\Trunk\Fruit'))
+                ->add(new UseStatement('\Reflection\Tests\Dummy\Tree\Trunk\Leaf', 'LeafAlias'))
         );
 
         $this->assertFalse($reflection->isNotUserDefined());
 
-        $this->assertTrue($reflection->hasUseStatement('\JsonSerializable'));
-        $this->assertTrue($reflection->hasUseStatement('JsonSerializable'));
-        $this->assertTrue($reflection->hasUseStatement('\Reflection\Tests\Dummy\Branch'));
-        $this->assertTrue($reflection->hasUseStatement('BranchClass'));
-        $this->assertTrue($reflection->hasUseStatement('\Reflection\Tests\Dummy\Leaf'));
-        $this->assertTrue($reflection->hasUseStatement('Leaf'));
-        $this->assertFalse($reflection->hasUseStatement('LeafClass'));
-
-        $this->assertNull($reflection->getUseStatements()->findUseStatement('LeafClass'));
-        $this->assertEquals(
-            $reflection->getUseStatements()->findUseStatement('BranchClass'),
-            new UseStatement('\Reflection\Tests\Dummy\Branch', 'BranchClass')
-        );
+        $this->assertTrue($reflection->hasUseStatement('\ReflectionClass'));
+        $this->assertTrue($reflection->hasUseStatement('LeafAlias'));
+        $this->assertFalse($reflection->hasUseStatement('Dummy'));
 
         $this->expectException('RuntimeException');
         $this->expectExceptionMessage('Can get use statements from user defined classes only.');
