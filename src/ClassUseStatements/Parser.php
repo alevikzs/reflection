@@ -317,15 +317,7 @@ class Parser {
 
                 break;
             default:
-                if ($this->isUseStatementBuilding() && $this->getStatementType()) {
-                    switch ($token[0]) {
-                        case T_NS_SEPARATOR:
-                        case T_STRING:
-                            $this->setStatement($token[1]);
-
-                            break;
-                    }
-                }
+                $this->updateStatement($token);
         }
 
         return $this;
@@ -345,6 +337,24 @@ class Parser {
                 $this->setIsNotBrace();
 
                 break;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $token
+     * @return Parser
+     */
+    private function updateStatement(array $token): Parser {
+        if ($this->isUseStatementBuilding() && $this->getStatementType()) {
+            switch ($token[0]) {
+                case T_NS_SEPARATOR:
+                case T_STRING:
+                    $this->setStatement($token[1]);
+
+                    break;
+            }
         }
 
         return $this;
