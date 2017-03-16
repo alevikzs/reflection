@@ -286,24 +286,19 @@ class Parser {
 
             $this->clearStatements();
 
-            if ($token === ';') {
-                $this->setUseStatementIsNotBuilding();
+            switch ($token) {
+                case ';':
+                    $this->setUseStatementIsNotBuilding();
+
+                    break;
+                case ',':
+                    $this->setStatementType(self::USE_STATEMENT_TYPE);
+
+                    break;
             }
-
-            if ($token === ',') {
-                $this->setStatementType(self::USE_STATEMENT_TYPE);
-            }
         }
 
-        if ($token === '{') {
-            $this->setIsBrace();
-        }
-
-        if ($token === ';') {
-            $this->setIsNotBrace();
-        }
-
-        return $this;
+        return $this->updateBraceState($token);
     }
 
     /**
@@ -311,19 +306,45 @@ class Parser {
      * @return Parser
      */
     private function analyzeStatementToken(array $token): Parser {
-        if ($token[0] === T_USE) {
-            $this->setUseStatementIsBuilding()
-                ->setStatementType(self::USE_STATEMENT_TYPE);
-        } elseif ($token[0] === T_AS) {
-            $this->setStatementType(self::ALIAS_STATEMENT_TYPE);
-        } elseif ($this->isUseStatementBuilding() && $this->getStatementType()) {
-            switch ($token[0]) {
-                case T_NS_SEPARATOR:
-                case T_STRING:
-                    $this->setStatement($token[1]);
+        switch ($token[0]) {
+            case T_USE:
+                $this->setUseStatementIsBuilding()
+                    ->setStatementType(self::USE_STATEMENT_TYPE);
 
-                    break;
-            }
+                break;
+            case T_AS:
+                $this->setStatementType(self::ALIAS_STATEMENT_TYPE);
+
+                break;
+            default:
+                if ($this->isUseStatementBuilding() && $this->getStatementType()) {
+                    switch ($token[0]) {
+                        case T_NS_SEPARATOR:
+                        case T_STRING:
+                            $this->setStatement($token[1]);
+
+                            break;
+                    }
+                }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $token
+     * @return Parser
+     */
+    private function updateBraceState(string $token): Parser {
+        switch ($token) {
+            case '{':
+                $this->setIsBrace();
+
+                break;
+            case ';':
+                $this->setIsNotBrace();
+
+                break;
         }
 
         return $this;
