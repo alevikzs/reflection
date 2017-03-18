@@ -1,4 +1,4 @@
-##Use Statements Reflection API
+## Use Statements Reflection API
 
 [![License](http://poser.pugx.org/alevikzs/reflection/license)](https://packagist.org/packages/alevikzs/reflection)
 [![Latest Stable Version](http://poser.pugx.org/alevikzs/reflection/v/stable)](https://packagist.org/packages/alevikzs/reflection) 
@@ -9,16 +9,16 @@
 [![Build Status](https://scrutinizer-ci.com/g/alevikzs/reflection/badges/build.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/reflection/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/alevikzs/reflection/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/reflection/?branch=master)
 
-###About
+### About
 This package provides reflection API for retrieve use statements by some class.
 
-###Requirements
+### Requirements
 * PHP >= 7.1
 
-###Installation
+### Installation
 Require the package with composer: ```$ composer require alevikzs/reflection```
 
-###How to use
+### How to use
 First, you need to create reflection object:
 ```
 $reflection = new \Reflection\ClassUseStatements(Tree::class);
@@ -34,7 +34,7 @@ $reflection->getUseStatements()->getFullClassName('Some\Namespace\Class');
 ```
 The best way to see how it works is to look at tests.
 
-###MIT License
+### MIT License
 **Copyright (c) 2017 Alexey Novikov <alekseeey@gmail.com>**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
