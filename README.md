@@ -21,13 +21,18 @@ Require the package with composer: ```$ composer require alevikzs/reflection```
 ###How to use
 First, you need to create reflection object:
 ```
-$reflection = new ReflectionUseStatements(Tree::class);
+$reflection = new \Reflection\ClassUseStatements(Tree::class);
 ```
 and then you can get use statements or check if some class was used:
 ```
 $reflection->getUseStatements();
-$reflection->hasUseStatement(Tree::class)
+$reflection->hasUseStatement(Branch::class)
 ```
+Also, you can build global(full) class name by local class name that was imported in your class:
+```
+$reflection->getUseStatements()->getFullClassName('Some\Namespace\Class');
+```
+The best way to see how it works is to look at tests.
 
 ###MIT License
 **Copyright (c) 2017 Alexey Novikov <alekseeey@gmail.com>**
