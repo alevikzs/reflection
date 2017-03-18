@@ -37,4 +37,31 @@ class UseStatements extends ArrayObject {
         return false;
     }
 
+    /**
+     * @param string $class
+     * @return string|null
+     */
+    public function getFullClassName(string $class): ?string {
+        if ($class[0] === '\\') {
+            return $class;
+        }
+
+        $classParts = explode('\\', $class);
+        $passedNamespace = array_shift($classParts);
+
+        /** @var UseStatement $useStatement */
+        foreach ($this as $useStatement) {
+            $useParts = explode('\\', $useStatement->getUse());
+            $definedNamespace = array_pop($useParts);
+
+            if ($definedNamespace === $class || $useStatement->getAlias() === $class) {
+                return $useStatement->getUse();
+            } elseif ($definedNamespace === $passedNamespace || $useStatement->getAlias() === $passedNamespace) {
+                return $useStatement->getUse() . '\\' . implode('\\', $classParts);
+            }
+        }
+
+        return null;
+    }
+
 }

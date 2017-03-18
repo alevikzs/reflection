@@ -22,7 +22,6 @@ class ClassUseStatementsTest extends TestCase {
         $reflection = new ClassUseStatements(Tree::class);
 
         $this->assertEquals(
-            $reflection->getUseStatements(),
             (new UseStatements())
                 ->add(new UseStatement('\ReflectionClass'))
                 ->add(new UseStatement('\ReflectionFunction'))
@@ -32,7 +31,8 @@ class ClassUseStatementsTest extends TestCase {
                 ->add(new UseStatement('\ReflectionObject'))
                 ->add(new UseStatement('\Reflection\Tests\Dummy\Tree\Trunk\Branch', 'BranchAlias'))
                 ->add(new UseStatement('\Reflection\Tests\Dummy\Tree\Trunk\Fruit'))
-                ->add(new UseStatement('\Reflection\Tests\Dummy\Tree\Trunk\Leaf', 'LeafAlias'))
+                ->add(new UseStatement('\Reflection\Tests\Dummy\Tree\Trunk\Leaf', 'LeafAlias')),
+            $reflection->getUseStatements()
         );
 
         $this->assertFalse($reflection->isNotUserDefined());
@@ -40,6 +40,22 @@ class ClassUseStatementsTest extends TestCase {
         $this->assertTrue($reflection->hasUseStatement('\ReflectionClass'));
         $this->assertTrue($reflection->hasUseStatement('LeafAlias'));
         $this->assertFalse($reflection->hasUseStatement('Dummy'));
+
+        $this->assertEquals(
+            '\Reflection\Tests\Dummy\Tree\Trunk\Branch',
+            $reflection->getUseStatements()->getFullClassName('DummyAlias\Tree\Trunk\Branch')
+        );
+        $this->assertEquals(
+            '\Reflection\Tests\Dummy\Tree\Trunk\Fruit',
+            $reflection->getUseStatements()->getFullClassName('Fruit')
+        );
+        $this->assertEquals(
+            '\ReflectionException',
+            $reflection->getUseStatements()->getFullClassName('\ReflectionException')
+        );
+        $this->assertNull(
+            $reflection->getUseStatements()->getFullClassName('Dummies')
+        );
 
         $this->expectException('RuntimeException');
         $this->expectExceptionMessage('Can get use statements from user defined classes only.');
