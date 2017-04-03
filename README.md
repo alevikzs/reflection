@@ -10,7 +10,16 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/alevikzs/reflection/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/reflection/?branch=master)
 
 ### About
-This package provides reflection API for retrieve use statements by some class.
+This package provides reflection API for retrieve use statements by some class. You can parse the next use statements:
+```
+use \ReflectionClass,
+    \ReflectionFunction,
+    \ReflectionMethod;
+use Reflection\Tests\Dummy\Tree\{Root};
+use \Reflection\Tests\Dummy as DummyAlias;
+use \ReflectionObject;
+use \Reflection\Tests\Dummy\Tree\{Trunk\Branch as BranchAlias, Trunk\Fruit, Trunk\Leaf as LeafAlias};
+```
 
 ### Requirements
 * PHP >= 7.1
