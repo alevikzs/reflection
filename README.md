@@ -3,7 +3,6 @@
 [![License](http://poser.pugx.org/alevikzs/reflection/license)](https://packagist.org/packages/alevikzs/reflection)
 [![Latest Stable Version](http://poser.pugx.org/alevikzs/reflection/v/stable)](https://packagist.org/packages/alevikzs/reflection) 
 [![Total Downloads](http://poser.pugx.org/alevikzs/reflection/downloads)](https://packagist.org/packages/alevikzs/reflection) 
-[![Reference Status](http://www.versioneye.com/php/alevikzs:reflection/reference_badge.svg?style=flat)](https://www.versioneye.com/php/alevikzs:reflection/references)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alevikzs/reflection/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/reflection/?branch=master)
 [![Code Climate](https://codeclimate.com/github/alevikzs/reflection/badges/gpa.svg)](https://codeclimate.com/github/alevikzs/reflection)
 [![Build Status](https://scrutinizer-ci.com/g/alevikzs/reflection/badges/build.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/reflection/build-status/master)
